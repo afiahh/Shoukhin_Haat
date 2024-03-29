@@ -1,5 +1,5 @@
 """
-URL configuration for firstP project.
+URL configuration for SHmanagement project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.0/topics/http/urls/
@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from afi import views as s_views
+from shoukhin import views as s_view
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',s_views.home,name='home')
+    path('',s_view.home_page,name = 'home'),
+    path('cart/', s_view.cart, name='cart'),
+    path('orders/', s_view.orders, name='orders'),
+    #path('dashboard', s_view.dashboard, name='dashboard'),
+    path('product_details/', s_view.product_details, name='product_details'),
+    path('buyer/', s_view.buyer, name='buyer'),
+    path('seller/', s_view.seller, name='seller'),
 ]
