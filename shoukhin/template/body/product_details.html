@@ -1,5 +1,24 @@
 {% extends 'body/main.html' %}
 
 {% block content %}
-<h1> product details </h1>
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      
+      <th scope="col">CATEGORY</th>
+      <th scope="col">NAME</th>
+      <th scope="col">PRICE</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for p in product %}
+    <tr>
+      <td>{{p.category}}</td>
+      <td>{{p.name}}</td>
+      <td>{{p.price}}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
 {% endblock %}
