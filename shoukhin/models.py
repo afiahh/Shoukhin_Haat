@@ -31,7 +31,7 @@ class product(models.Model):
     description = models.TextField(blank=True,null=True)
     measurements = models.CharField(max_length=300)
     category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='others')
-    #image = models.ImageField(upload_to='product_images/')
+    image = models.ImageField(blank=True, null=True)
     stock = models.IntegerField(default=0)
     # rating = models.ForeignKey(Rating, on_delete=models.CASCADE ,blank=True,null=True)
     #review = models.ForeignKey(Rating, on_delete=models.CASCADE,blank=True,null=True)

@@ -1,10 +1,10 @@
 {% extends 'body/main.html' %}
-
+{% load static %}
 {% block content %}
 <table class="table">
   <thead class="thead-dark">
     <tr>
-      
+      <th scope="col">PICTURE</th>
       <th scope="col">CATEGORY</th>
       <th scope="col">NAME</th>
       <th scope="col">PRICE</th>
@@ -13,6 +13,7 @@
   <tbody>
   {% for p in product %}
     <tr>
+      <td><img src = "{{p.image.url}}" style="height:50px ; width:50px"></td>
       <td>{{p.category}}</td>
       <td>{{p.name}}</td>
       <td>{{p.price}}</td>

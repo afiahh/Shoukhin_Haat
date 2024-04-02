@@ -1,6 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
-
+from .forms import *
 # Create your views here.
 def home_page(request):
     return render(request,template_name='body/dashboard.html')
@@ -20,6 +20,19 @@ def product_details(request):
         'product':pro,
     }
     return  render(request,template_name='body/product_details.html',context=context)
+
+def add_product(request):
+    form=productForm()
+    if request.method =='POST':
+        form=productForm(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_details')
+
+    context={
+        'form': form
+    }
+    return render(request, template_name='body/add_product.html',context=context)
 
 def seller(request):
     return  render(request,template_name='body/seller.html')

@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
 from shoukhin import views as s_view
 
 urlpatterns = [
@@ -27,4 +29,7 @@ urlpatterns = [
     path('product_details/', s_view.product_details, name='product_details'),
     path('buyer/', s_view.buyer, name='buyer'),
     path('seller/', s_view.seller, name='seller'),
+    path('add_product/',s_view.add_product, name='add_product')
 ]
+
+urlpatterns+= static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
