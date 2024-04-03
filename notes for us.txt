@@ -1,0 +1,36 @@
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
+git-
+push
+1. git add .
+2. git commit -m"project created"
+3. git push
+
+pull
+1.git pull origin main
+
+cloning
+1. git clone <>code
+2.cd 'file name'
+
+
+for static-
+settings.py
+STATIC_URL = 'static/'
+
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    BASE_DIR/'static',] 
+
+MEDIA_ROOT= os.path.join(BASE_DIR,'satic/images')
+
+urls.py
+from django.urls import path
+from django.conf.urls.static import static
+
+urlpatterns+= static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
+
+
