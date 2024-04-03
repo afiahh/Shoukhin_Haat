@@ -27,6 +27,7 @@ urlpatterns = [
     path('orders/', s_view.orders, name='orders'),
     #path('dashboard', s_view.dashboard, name='dashboard'),
     path('product_details/', s_view.product_details, name='product_details'),
+    path('product_details/<str:id>', s_view.view_product, name='view_product'),
     path('buyer/', s_view.buyer, name='buyer'),
     path('seller/', s_view.seller, name='seller'),
     path('add_product/',s_view.add_product, name='add_product')

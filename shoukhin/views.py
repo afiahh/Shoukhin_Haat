@@ -34,6 +34,14 @@ def add_product(request):
     }
     return render(request, template_name='body/add_product.html',context=context)
 
+def view_product(request,id):
+    prod=product.objects.get(pk=id)
+    context = {
+        'product': prod,
+    }
+    return render(request, template_name='body/view_product.html',context=context)
+
+
 def seller(request):
     return  render(request,template_name='body/seller.html')
 
