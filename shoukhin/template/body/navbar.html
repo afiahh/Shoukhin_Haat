@@ -10,10 +10,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">dashboard</a>
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">dashboard</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">cart</a>
+          <a class="nav-link " href="{% url 'cart' %}">cart</a>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,7 +27,7 @@
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">orders</a>
+            <a class="nav-link" href="{% url 'orders' %}">orders</a>
         </li>
       </ul>
       <form class="d-flex">
@@ -37,3 +37,4 @@
     </div>
   </div>
 </nav>
+

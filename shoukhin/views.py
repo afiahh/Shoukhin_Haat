@@ -47,3 +47,11 @@ def seller(request):
 
 def buyer(request):
     return  render(request,template_name='body/buyer.html')
+
+
+def your_view_function(request):
+    # Your view logic here
+    context = {
+        'request': request
+    }
+    return render(request, template_name='body/navbar.html', context=context)
