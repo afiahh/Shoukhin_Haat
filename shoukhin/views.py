@@ -45,6 +45,19 @@ def view_product(request,id):
 def seller(request):
     return  render(request,template_name='body/seller.html')
 
+def add_rating(request):
+    form=ratingForm
+    if request.method =='POST':
+        form=ratingForm(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_rating')
+
+    context={
+        'form': form
+    }
+    return render(request, template_name='body/add_rating.html',context=context)
+
 def buyer(request):
     return  render(request,template_name='body/buyer.html')
 

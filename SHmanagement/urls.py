@@ -30,7 +30,8 @@ urlpatterns = [
     path('product_details/<str:id>', s_view.view_product, name='view_product'),
     path('buyer/', s_view.buyer, name='buyer'),
     path('seller/', s_view.seller, name='seller'),
-    path('add_product/',s_view.add_product, name='add_product')
+    path('add_product/',s_view.add_product, name='add_product'),
+    path('add_rating/', s_view.add_rating, name='add_rating'),
 ]
 
 urlpatterns+= static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)

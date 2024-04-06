@@ -6,3 +6,8 @@ class productForm(ModelForm):
         model=product
         fields='__all__'
 
+class ratingForm(ModelForm):
+    class Meta:
+        model=Rating
+        fields='__all__'
+
