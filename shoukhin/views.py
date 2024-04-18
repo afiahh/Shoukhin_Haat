@@ -58,6 +58,13 @@ def add_rating(request):
     }
     return render(request, template_name='body/add_rating.html',context=context)
 
+def product_rating(request):
+    rate = Rating.objects.all()
+    context={
+        'Rating':rate,
+    }
+    return  render(request,template_name='body/product_rating.html',context=context)
+
 def buyer(request):
     return  render(request,template_name='body/buyer.html')
 

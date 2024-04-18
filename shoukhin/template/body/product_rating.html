@@ -1,0 +1,28 @@
+{% extends 'body/main.html' %}
+{% load static %}
+{% block content %}
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">USER</th>
+      <th scope="col">PRODUCT</th>
+      <th scope="col">RATE</th>
+      <th scope="col">REVIEW</th>
+        <th scope="col">TIME</th>
+    </tr>
+
+  </thead>
+  <tbody>
+  {% for r in Rating %}
+    <tr>
+      <td>{{r.user}}</td>
+      <td>{{r.product}}</td>
+      <td>{{r.rating}}</td>
+        <td>{{r.review}}</td>
+        <td>{{r.created_at}}</td>
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
