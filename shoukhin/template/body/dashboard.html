@@ -1,84 +1,125 @@
 {% extends 'body/main.html' %}
 
 {% block content %}
+<style>
+  /* Custom CSS to set fixed height for card images */
+  .card-img-top {
+    height: 250px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the entire space without distortion */
+  }
+  .custom-card {
+    background-color: #f4c1c1; /* Replace #your_color_here with your hexadecimal color code */
+    color: #000000; /* Text color to ensure contrast */}
+
+  .btn-small {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .btn-small-custom {
+    background-color: #FF6962; /* Replace #your_custom_color_here with your hexadecimal color code */
+    border-color: #FF6962; /* Set border color to match the background color */
+    color: #000000; /* Text color to ensure contrast */
+  }
+  .btn-small-custom:hover {
+      background-color: #D22B2B; /* Darken the color on hover */
+    }
+</style>
+
 <div class="row">
-  <div class="col-md-3">
-<div class="card text-bg-primary mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+  <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">JUTE</div>
   <div class="card-body">
-<img src="static/images/afiah.png" class="card-img-top" alt="Image">
-    <h5 class="card-title">Primary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+<img src="static/images/jute.jpg " class="card-img-top" alt="Image">
+    <hr>
+    <h5 class="card-title"><b>পাঁট দ্রব্য</b></h5>
+    <p class="card-text"></p>
+<button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
   </div>
-  <div class="col-md-3">
-<div class="card text-bg-secondary mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+  <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">CLOTHS</div>
   <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Secondary card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div>
-    </div>
-    <div class="col-md-3">
-<div class="card text-bg-success mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
-  <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Success card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <img src="static/images/cloth.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>বাংলার বুনন</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
     </div>
-      <div class="col-md-3">
-<div class="card text-bg-danger mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+    <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">JEWELLERY</div>
   <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Danger card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <img src="static/images/jewellery.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>হাতে তৈরি গহনা</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
+  </div>
+</div>
+    </div>
+      <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">STITCHED</div>
+  <div class="card-body">
+    <img src="static/images/nakshi kantha.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"> <b>নকশি কাঁথা </b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
       </div>
-        <div class="col-md-3">
-<div class="card text-bg-warning mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+        <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">POTTERY</div>
   <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Warning card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <img src="static/images/pottery.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>টেরাকোটা</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
         </div>
-          <div class="col-md-3">
-<div class="card text-bg-info mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+          <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">HOME DECOR</div>
   <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Info card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <img src="static/images/home decor.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>গৃহ সজ্জা</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
           </div>
-            <div class="col-md-3">
-<div class="card text-bg-light mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+            <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">FOODS</div>
   <div class="card-body">
-    <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Light card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+    <img src="static/images/food.jpg" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>দই-মিষ্টি</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
             </div>
-              <div class="col-md-3">
-<div class="card text-bg-dark mb-3" style="max-width: 18rem;">
-  <div class="card-header">Header</div>
+              <div class="col-md-2">
+<div class="card custom-card mb-3" style="max-width: 18rem;">
+  <div class="card-header">OTHERS</div>
   <div class="card-body">
-      <img src="static/images/afiah2.jpg" class="card-img-top" alt="Image">
-    <h5 class="card-title">Dark card title</h5>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <img src="static/images/others.png" class="card-img-top" alt="Image">
+     <hr>
+    <h5 class="card-title"><b>অন্যকিছু</b></h5>
+    <p class="card-text"></p>
+  <button class="btn btn-primary btn-small btn-small-custom">view</button>
   </div>
 </div>
 </div>

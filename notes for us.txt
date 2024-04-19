@@ -38,6 +38,8 @@ button green 3F7D7C
 button red FF6962
 basic green BCE4BC
 basic red FF9C97
+card green #EFFDEE
+writing green #344E41
 
 
 
