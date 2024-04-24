@@ -65,3 +65,48 @@ writing green #344E41
 lagbe na :3
 
 ********
+
+{% extends 'body/main.html' %}
+{% load static %}
+{% block content %}
+<a href="{% url 'add_product' %}" class="btn custom-btn mb-3 border border-dark border-2">Add Product</a> <!-- Added an "Add Product" button -->
+<table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">PICTURE</th>
+      <th scope="col">CATEGORY</th>
+      <th scope="col">NAME</th>
+      <th scope="col">PRICE</th>
+      <th> </th>
+    </tr>
+
+  <style>
+    .custom-btn {
+      background-color: #3F7D7C;
+      color: #fff; /* Set text color to white for better contrast */
+    }
+    .custom-btn:hover {
+      background-color: #345e5d; /* Darken the color on hover */
+    }
+  </style>
+  </thead>
+  <tbody>
+  {% for p in product %}
+    <tr>
+      {% if p.image %}
+      <td><img src = "{{p.image.url}}" style="height:50px ; width:50px"></td>
+      {% endif %}
+      <td>{{p.category}}</td>
+      <td>{{p.name}}</td>
+      <td>{{p.price}}</td>
+
+      <td><a href="{% url 'view_product' p.id %}" class="btn btn-success ">details</a></td>
+      <td><a href="{% url 'edit_product' p.id  %}" class="btn custom-btn">edit</a></td>
+      <td><a class="btn btn-danger">delete</a></td>
+
+    </tr>
+{% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

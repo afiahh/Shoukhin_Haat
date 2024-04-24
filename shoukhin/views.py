@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
@@ -33,6 +34,26 @@ def add_product(request):
         'form': form
     }
     return render(request, template_name='body/add_product.html',context=context)
+
+def edit_product(request,id):
+    prod = product.objects.get(pk=id)
+    form=productForm(instance=prod)
+    if request.method == 'POST':
+        form=productForm(request.POST,request.FILES , instance=prod)
+        if form.is_valid():
+            form.save()
+            return redirect('product_details')
+
+    context = {
+        'form': form
+    }
+    return render(request, template_name='body/add_product.html', context=context)
+
+def delete_product(request,id):
+   prod = product.objects.get(pk=id)
+   if request.method == 'POST':
+    prod.delete()
+   return redirect('product_details')
 
 def view_product(request,id):
     prod=product.objects.get(pk=id)
@@ -75,3 +96,17 @@ def your_view_function(request):
         'request': request
     }
     return render(request, template_name='body/navbar.html', context=context)
+
+def category_jute(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/category_jute.html',context=context)
+
+def category_nakshi_kantha(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/category_nakshi_kantha.html',context=context)

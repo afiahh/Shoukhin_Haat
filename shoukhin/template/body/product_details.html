@@ -32,11 +32,32 @@
       <td>{{p.name}}</td>
       <td>{{p.price}}</td>
 
-      <td><a href="{% url 'view_product' p.id %}" class="btn custom-btn">details</a></td>
+      <td><a href="{% url 'view_product' p.id %}" class="btn btn-success ">details</a></td>
+      <td><a href="{% url 'edit_product' p.id  %}" class="btn custom-btn">edit</a></td>
+      <td>
+        <!-- Button to trigger delete confirmation -->
+        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ p.id }})">
+          delete
+        </button>
 
+        <!-- Hidden form for deletion -->
+        <form id="deleteForm{{ p.id }}" action="{% url 'delete_product' p.id %}" method="post">
+          {% csrf_token %}
+        </form>
+      </td>
     </tr>
-{% endfor %}
+  {% endfor %}
   </tbody>
 </table>
 
+<!-- JavaScript for confirmation dialog -->
+<script>
+  function confirmDelete(productId) {
+    var confirmDelete = confirm("Are you sure you want to delete this product?");
+    if (confirmDelete) {
+      // Submit the form for deletion
+      document.getElementById('deleteForm' + productId).submit();
+    }
+  }
+</script>
 {% endblock %}
