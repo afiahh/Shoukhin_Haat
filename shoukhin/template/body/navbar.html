@@ -11,6 +11,9 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+                    <a href="{% url 'login' %}"  class="btn btn-warning" type="submit">Login</a>
+                </li>
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
         </li>
@@ -31,6 +34,7 @@
         <li class="nav-item">
             <a class="nav-link" href="{% url 'orders' %}">Orders</a>
         </li>
+
         <style>
     .custom-btn {
       background-color: #BCE4BC;
@@ -40,12 +44,21 @@
       background-color: #345e5d; /* Darken the color on hover */
     }
   </style>
+
       </ul>
       <form class="d-flex">
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <a href="{% url 'product_details' %}"  class="btn custom-btn" type="submit">Search</a>
+        <a href="{% url 'product_details' %}"  class="btn custom-btn">Search</a>
+
       </form>
+
+   <!-- Login Icon
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a href="{% url 'login' %}"  class="btn btn-warning" type="submit">Login</a>
+                </li>
+            </ul> -->
+        </div>
     </div>
-  </div>
 </nav>
 

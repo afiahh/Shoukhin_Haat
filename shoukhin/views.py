@@ -2,12 +2,28 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
+from django.contrib.auth.forms import UserCreationForm
 # Create your views here.
 def home_page(request):
     return render(request,template_name='body/dashboard.html')
 
 #def dashboard(request):
     #  return  render(request,template_name='body/dashboard.html')
+
+def login(request):
+    return render(request,template_name='body/login.html')
+
+def createAcc(request):
+    form = createAccForm()
+    if request.method == 'POST':
+        form = createAccForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    context = {
+        'form': form
+    }
+    return render(request,template_name='body/createAcc.html',context=context)
 
 def cart(request):
     return  render(request,template_name='body/cart.html')

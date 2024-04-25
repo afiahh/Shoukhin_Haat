@@ -23,6 +23,8 @@ from shoukhin import views as s_view
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',s_view.home_page,name = 'home'),
+    path('/login/', s_view.login, name='login'),
+    path('createAcc/', s_view.createAcc, name='createAcc'),
     path('/cart/', s_view.cart, name='cart'),
     path('/orders/', s_view.orders, name='orders'),
     path('/product_details/', s_view.product_details, name='product_details'),

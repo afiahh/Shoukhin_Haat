@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils import timezone
-
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class Rating(models.Model):
@@ -77,4 +77,25 @@ class Order(models.Model):
     def __str__(self):
         return f"Order {self.id} by {self.user}"
 
-#class seller(models.Model):
+
+class CustomUser(AbstractUser):
+    NID_LENGTH = 20
+    ACCOUNT_TYPES = [
+        ('buyer', 'Buyer'),
+        ('seller', 'Seller'),
+    ]
+
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    nid = models.CharField(max_length=NID_LENGTH)
+    account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
+    picture = models.ImageField(upload_to='user_pictures/', blank=True, null=True)
+    about_myself = models.TextField(blank=True, null=True)
+    address = models.CharField(max_length=255)
+    # Add related_name to avoid clashes with auth.User's groups and user_permissions
+    groups = models.ManyToManyField('auth.Group', related_name='custom_user_groups',blank=True, null=True)
+    user_permissions = models.ManyToManyField('auth.Permission', related_name='custom_user_permissions',blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
