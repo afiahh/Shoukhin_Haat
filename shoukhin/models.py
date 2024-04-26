@@ -88,9 +88,10 @@ class CustomUser(AbstractUser):
     name = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
     nid = models.CharField(max_length=NID_LENGTH)
+    contact_no = models.CharField(max_length=20)
     account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
-    picture = models.ImageField(upload_to='user_pictures/', blank=True, null=True)
-    about_myself = models.TextField(blank=True, null=True)
+    picture = models.ImageField(upload_to='static/images', blank=True, null=True,default='static/images/default_no_img.jfif')
+    about_myself = models.TextField(blank=True, null=True,default='will add later')
     address = models.CharField(max_length=255)
     # Add related_name to avoid clashes with auth.User's groups and user_permissions
     groups = models.ManyToManyField('auth.Group', related_name='custom_user_groups',blank=True, null=True)

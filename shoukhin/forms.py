@@ -15,5 +15,5 @@ class ratingForm(ModelForm):
 
 class createAccForm(UserCreationForm):
     class Meta:
-        model=User
-        fields = ['username','email','password1','password2']
+        model=CustomUser
+        fields = ['username','password1','password2','nid','name','email','contact_no','address','account_type','picture','about_myself']

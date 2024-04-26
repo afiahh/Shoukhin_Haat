@@ -1,7 +1,6 @@
-{% extends 'body/main.html' %}
 {% load static %}
 {% block content %}
-<form method="POST" action="" enctype="multipart/form-data" >
+<form action="" method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     {{form.as_p}}
 
@@ -10,3 +9,4 @@
 </form>
 
 {% endblock %}
+

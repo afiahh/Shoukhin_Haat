@@ -5,7 +5,7 @@ python manage.py runserver
 git-
 push
 1. git add .
-2. git commit -m"project created"
+2. git commit -m"project updated"
 3. git push
 
 pull
@@ -108,5 +108,48 @@ lagbe na :3
 {% endfor %}
   </tbody>
 </table>
+
+{% endblock %}
+***************
+
+{% extends 'body/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" action="" enctype="multipart/form-data" >
+    {% csrf_token %}
+
+    {{form.username.label}}
+    {{form.username}}
+
+    {{form.firstname.label}}
+    {{form.firstname}}
+
+    {{form.email.label}}
+    {{form.email}}
+
+    {{form.password1.label}}
+    {{form.password1}}
+
+    {{form.password2.label}}
+    {{form.password2}}
+
+
+    <input type="submit" name="Submit">
+
+</form>
+
+{% endblock %}
+***********
+
+{% extends 'body/main.html' %}
+{% load static %}
+{% block content %}
+<form method="POST" action="" enctype="multipart/form-data" >
+    {% csrf_token %}
+    {{form.as_p}}
+
+    <input type="submit" name="Submit">
+
+</form>
 
 {% endblock %}
