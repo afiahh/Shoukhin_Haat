@@ -1,12 +1,300 @@
-{% load static %}
-{% block content %}
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{form.as_p}}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
 
-    <input type="submit" name="Submit">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+  <style>
+    success_message { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form class="well form-horizontal" action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>
+        <legend>Registration Form</legend>
 
-</form>
+        <!-- Username -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Username</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input name="username" placeholder="Username" class="form-control" type="text" value="{{ form.username.value }}">
+            </div>
+          </div>
+        </div>
 
-{% endblock %}
+        <!-- Password -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Password</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input name="password1" placeholder="Password" class="form-control" type="password" value="{{ form.password1.value }}">
+            </div>
+          </div>
+        </div>
 
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Confirm Password</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input name="password2" placeholder="Confirm Password" class="form-control" type="password" value="{{ form.password2.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- NID -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">NID</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card"></i></span>
+              <input name="nid" placeholder="NID" class="form-control" type="text" value="{{ form.nid.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Name</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input name="name" placeholder="Name" class="form-control" type="text" value="{{ form.name.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Email</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+              <input name="email" placeholder="Email Address" class="form-control" type="email" value="{{ form.email.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact No -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Contact No</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+              <input name="contact_no" placeholder="Contact No" class="form-control" type="text" value="{{ form.contact_no.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Address</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+              <input name="address" placeholder="Address" class="form-control" type="text" value="{{ form.address.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Type -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Account Type</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               {{ form.account_type }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Picture -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Picture</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+              {{ form.picture }}
+            </div>
+          </div>
+        </div>
+
+        <!-- About Myself -->
+        <!-- About Myself -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">About Myself</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+              {{ form.about_myself }}
+            </div>
+          </div>
+        </div>
+
+        <!--  <div class="alert alert-success" role="alert" id="success_message">Registration Successful! Thank you.</div> -->
+
+        <div class="form-group">
+          <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <input type="submit" name="Submit" class="btn btn-primary">
+
+          </div>
+        </div>
+
+      </fieldset>
+    </form>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#registration_form').bootstrapValidator({
+        feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+          username: {
+            validators: {
+              stringLength: {
+                min: 6,
+                message: 'Username must be at least 6 characters'
+              },
+              notEmpty: {
+                message: 'Please supply your username'
+              }
+            }
+          },
+          password1: {
+            validators: {
+              stringLength: {
+                min: 6,
+                message: 'Password must be at least 6 characters'
+              },
+              notEmpty: {
+                message: 'Please supply your password'
+              }
+            }
+          },
+          password2: {
+            validators: {
+              identical: {
+                field: 'password1',
+                message: 'Passwords do not match'
+              },
+              notEmpty: {
+                message: 'Please confirm your password'
+              }
+            }
+          },
+          nid: {
+            validators: {
+              stringLength: {
+                min: 10,
+                max: 20,
+                message: 'Please enter a valid NID'
+              },
+              notEmpty: {
+                message: 'Please supply your NID'
+              }
+            }
+          },
+          name: {
+            validators: {
+              stringLength: {
+                min: 2,
+                message: 'Please enter a valid name'
+              },
+              notEmpty: {
+                message: 'Please supply your name'
+              }
+            }
+          },
+          email: {
+            validators: {
+              notEmpty: {
+                message: 'Please supply your email address'
+              },
+              emailAddress: {
+                message: 'Please supply a valid email address'
+              }
+            }
+          },
+          contact_no: {
+            validators: {
+              stringLength: {
+                min: 11,
+                max: 20,
+                message: 'Please enter a valid phone number'
+              },
+              notEmpty: {
+                message: 'Please supply your contact number'
+              }
+            }
+          },
+          address: {
+            validators: {
+              stringLength: {
+                min: 8,
+                message: 'Please enter a valid address'
+              },
+              notEmpty: {
+                message: 'Please supply your address'
+              }
+            }
+          },
+          account_type: {
+            validators: {
+              notEmpty: {
+                message: 'Please select your account type'
+              }
+            }
+          },
+          picture: {
+            validators: {
+              file: {
+                extension: 'jpeg,jpg,png',
+                type: 'image/jpeg,image/png',
+                maxSize: 2097152, // 2 MB
+                message: 'Please choose a valid image file (JPEG, JPG, PNG) less than 2MB'
+              }
+            }
+          },
+          about_myself: {
+            validators: {
+              stringLength: {
+                min: 10,
+                max: 500,
+                message: 'Please enter at least 10 characters and no more than 500'
+              },
+              notEmpty: {
+                message: 'Please provide information about yourself'
+              }
+            }
+          }
+        }
+      }).on('success.form.bv', function(e) {
+        $('#success_message').slideDown({ opacity: "show" }, "slow");
+        $('#registration_form').data('bootstrapValidator').resetForm();
+        e.preventDefault();
+        var $form = $(e.target);
+        var bv = $form.data('bootstrapValidator');
+        $.post($form.attr('action'), $form.serialize(), function(result) {
+          console.log(result);
+        }, 'json');
+      });
+    });
+  </script>
+</body>
+</html>

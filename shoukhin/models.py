@@ -87,8 +87,8 @@ class CustomUser(AbstractUser):
 
     name = models.CharField(max_length=100)
     email = models.EmailField(blank=True, null=True)
-    nid = models.CharField(max_length=NID_LENGTH)
-    contact_no = models.CharField(max_length=20)
+    nid = models.CharField(max_length=NID_LENGTH) #min length 10
+    contact_no = models.CharField(max_length=20,blank=True, null=True,default='+880')
     account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
     picture = models.ImageField(upload_to='static/images', blank=True, null=True,default='static/images/default_no_img.jfif')
     about_myself = models.TextField(blank=True, null=True,default='will add later')
