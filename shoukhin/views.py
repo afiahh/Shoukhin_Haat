@@ -3,6 +3,9 @@ from django.shortcuts import render, redirect
 from .models import *
 from .forms import *
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from .models import CustomUser
 # Create your views here.
 def home_page(request):
     return render(request,template_name='body/dashboard.html')
@@ -10,7 +13,17 @@ def home_page(request):
 #def dashboard(request):
     #  return  render(request,template_name='body/dashboard.html')
 
-def login(request):
+def loginpage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username , password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+
     return render(request,template_name='body/login.html')
 
 def createAcc(request):
@@ -19,6 +32,7 @@ def createAcc(request):
         form = createAccForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
+            messages.success(request, "Profile is created.")
             return redirect('login')
     context = {
         'form': form
