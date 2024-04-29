@@ -1,55 +1,41 @@
 {% extends 'body/main.html' %}
 {% load static %}
 {% block content %}
-<a href="{% url 'add_product' %}" class="btn custom-btn mb-3 border border-dark border-2">Add Product</a> <!-- Added an "Add Product" button -->
-<table class="table">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">PICTURE</th>
-      <th scope="col">CATEGORY</th>
-      <th scope="col">NAME</th>
-      <th scope="col">PRICE</th>
-      <th> </th>
-    </tr>
+<style>
+  /* Custom CSS to set fixed height for card images */
+  .card-img-top {
+    height: 150px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the entire space without distortion */
+  }
+  .custom-card {
+    background-color: #f4c1c1; /* Replace #your_color_here with your hexadecimal color code */
+    color: #000000; /* Text color to ensure contrast */
+    height: 100%; /* Set card height to 100% to maintain consistent size */
+  }
+</style>
 
-  <style>
-    .custom-btn {
-      background-color: #3F7D7C;
-      color: #fff; /* Set text color to white for better contrast */
-    }
-    .custom-btn:hover {
-      background-color: #345e5d; /* Darken the color on hover */
-    }
-  </style>
-  </thead>
-  <tbody>
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
   {% for p in product %}
-    <tr>
-      {% if p.image %}
-      <td><img src = "{{p.image.url}}" style="height:50px ; width:50px"></td>
-      {% endif %}
-      <td>{{p.category}}</td>
-      <td>{{p.name}}</td>
-      <td>{{p.price}}</td>
-
-      <td><a href="{% url 'view_product' p.id %}" class="btn btn-success ">details</a></td>
-      <td><a href="{% url 'edit_product' p.id  %}" class="btn custom-btn">edit</a></td>
-      <td>
-        <!-- Button to trigger delete confirmation -->
-        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ p.id }})">
-          delete
-        </button>
-
+  <div class="col">
+    <div class="card custom-card">
+      <div class="card-header">{{ p.category }}</div>
+      <div class="card-body">
+        <img src="{{ p.image.url }}" class="card-img-top" alt="Product Image">
+        <hr>
+        <h5 class="card-title"><b>{{ p.name }}</b></h5>
+        <p class="card-text">Price: {{ p.price }}</p>
+        <a href="{% url 'view_product' p.id %}" class="btn btn-success">Details</a>
+        <a href="{% url 'edit_product' p.id %}" class="btn custom-btn">Edit</a>
+        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ p.id }})">Delete</button>
         <!-- Hidden form for deletion -->
         <form id="deleteForm{{ p.id }}" action="{% url 'delete_product' p.id %}" method="post">
           {% csrf_token %}
         </form>
-      </td>
-    </tr>
+      </div>
+    </div>
+  </div>
   {% endfor %}
-  </tbody>
-</table>
-
+</div>
 <!-- JavaScript for confirmation dialog -->
 <script>
   function confirmDelete(productId) {
