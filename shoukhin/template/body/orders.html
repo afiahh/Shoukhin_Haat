@@ -1,5 +1,35 @@
 {% extends 'body/main.html' %}
-
+{% load static %}
 {% block content %}
-<h1> order </h1>
+
+<div class="container">
+  <h1>Your Orders</h1>
+  <hr>
+  <div class="row">
+    {% for o in order %}
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title">Order #{{ o.id }}</h5>
+        </div>
+        <div class="card-body">
+          <p><strong>User:</strong> {{ o.user }}</p>
+          <p><strong>Product:</strong> {{ o.product.name }}</p>
+          <p><strong>Status:</strong> {{ o.status }}</p>
+          <p><strong>Total Amount:</strong> {{ o.total_amount }}</p>
+          <p><strong>Shipping Address:</strong> {{ o.shipping_address }}</p>
+          <p><strong>Payment Method:</strong> {{ o.payment_method }}</p>
+         <a href="{% url 'add_rating' %}?order_id={{ o.id }}&product_name={{ o.product.name }}" class="btn btn-primary">Add Rating</a>
+
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <div class="col-md-12">
+      <p>No orders found.</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
 {% endblock %}

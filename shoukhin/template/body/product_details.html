@@ -13,7 +13,7 @@
     height: 100%; /* Set card height to 100% to maintain consistent size */
   }
 </style>
-
+<a href="{% url 'add_product' %}" class="btn custom-btn mb-3 border border-dark border-2">Add Product</a> <!-- Added an "Add Product" button -->
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
   {% for p in product %}
   <div class="col">
@@ -35,7 +35,9 @@
     </div>
   </div>
   {% endfor %}
+
 </div>
+
 <!-- JavaScript for confirmation dialog -->
 <script>
   function confirmDelete(productId) {

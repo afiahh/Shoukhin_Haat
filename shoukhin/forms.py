@@ -13,6 +13,11 @@ class ratingForm(ModelForm):
         model=Rating
         fields='__all__'
 
+class orderForm(ModelForm):
+    class Meta:
+        model=Order
+        fields='__all__'
+
 class createAccForm(UserCreationForm):
     class Meta:
         model=CustomUser

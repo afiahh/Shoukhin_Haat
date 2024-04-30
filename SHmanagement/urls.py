@@ -27,6 +27,7 @@ urlpatterns = [
     path('/login/createAcc/', s_view.createAcc, name='createAcc'),
     path('/cart/', s_view.cart, name='cart'),
     path('/orders/', s_view.orders, name='orders'),
+    path('orderForm/', s_view.add_orders, name='orderForm'),
     path('/product_details/', s_view.product_details, name='product_details'),
     #path('dashboard', s_view.dashboard, name='dashboard'),
     path('product_details/', s_view.product_details, name='product_details'),
@@ -37,7 +38,7 @@ urlpatterns = [
     path('product_details/edit_product/<str:id>', s_view.edit_product, name='edit_product'),
     path('product_details/delete_product/<str:id>/', s_view.delete_product, name='delete_product'),
     path('add_rating/',s_view.add_rating, name='add_rating'),
-    path('add_rating/product_rating/', s_view.product_rating, name='product_rating'),
+    path('add_rating/product_rating/<int:id>/', s_view.product_rating, name='product_rating'),
     path('category_jute/',s_view.category_jute, name='category_jute'),
     path('category_nakshi_kantha/',s_view.category_nakshi_kantha, name='category_nakshi_kantha'),
 ]

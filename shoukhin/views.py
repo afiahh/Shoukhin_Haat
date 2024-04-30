@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from .models import *
 from .forms import *
 from django.contrib.auth.forms import UserCreationForm
@@ -43,8 +43,38 @@ def cart(request):
     return  render(request,template_name='body/cart.html')
 
 def orders(request):
-    return  render(request,template_name='body/orders.html')
+    order = Order.objects.all()
+    context = {
+        'order': order,
+    }
 
+    return  render(request,template_name='body/orders.html',context=context)
+
+def add_orders(request):
+    if request.method =='POST':
+        form = orderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('orders')
+    else:
+        # Get the product ID from the query parameters
+        product_id = request.GET.get('product_id')
+        if product_id:
+            # Retrieve the product object based on the ID
+            product_obj = get_object_or_404(product, pk=product_id)
+            # Pre-fill the form with product details
+            initial_data = {
+                'product': product_obj,
+                'total_amount': product_obj.price,
+            }
+            form = orderForm(initial=initial_data)
+        else:
+            form = orderForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, template_name='body/orderForm.html', context=context)
 def product_details(request):
     pro = product.objects.all()
     context={
@@ -64,6 +94,7 @@ def add_product(request):
         'form': form
     }
     return render(request, template_name='body/add_product.html',context=context)
+
 
 def edit_product(request,id):
     prod = product.objects.get(pk=id)
@@ -96,21 +127,42 @@ def view_product(request,id):
 def seller(request):
     return  render(request,template_name='body/seller.html')
 
+
+from django.shortcuts import get_object_or_404
+from .models import product
+
 def add_rating(request):
-    form=ratingForm
-    if request.method =='POST':
-        form=ratingForm(request.POST , request.FILES)
+    # Get the order ID and product name from the query parameters
+    order_id = request.GET.get('order_id')
+    product_name = request.GET.get('product_name')
+
+    print("Order ID:", order_id)
+    print("Product Name:", product_name)
+
+    if request.method == 'POST':
+        form = ratingForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('product_rating')
+            return redirect('orders')
+    else:
+        # Get the product object based on the name
+        product_obj = get_object_or_404(product, name=product_name)
 
-    context={
+        # Pre-fill the form with order and product details
+        initial_data = {
+            'order': order_id,
+            'product': product_obj.pk,  # Use the product object's primary key
+        }
+        print("Initial Data:", initial_data)  # Print initial data for debugging
+        form = ratingForm(initial=initial_data)
+
+    context = {
         'form': form
     }
-    return render(request, template_name='body/add_rating.html',context=context)
+    return render(request, 'body/add_rating.html', context)
 
-def product_rating(request):
-    rate = Rating.objects.all()
+def product_rating(request,id):
+    rate = Rating.objects.filter(product_id= id)
     context={
         'Rating':rate,
     }

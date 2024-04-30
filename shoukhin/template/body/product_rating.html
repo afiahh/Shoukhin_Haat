@@ -8,21 +8,23 @@
       <th scope="col">PRODUCT</th>
       <th scope="col">RATE</th>
       <th scope="col">REVIEW</th>
-        <th scope="col">TIME</th>
+      <th scope="col">TIME</th>
     </tr>
-
   </thead>
   <tbody>
-  {% for r in Rating %}
+    {% for r in Rating %}
     <tr>
-      <td>{{r.user}}</td>
-      <td>{{r.product}}</td>
-      <td>{{r.rating}}</td>
-        <td>{{r.review}}</td>
-        <td>{{r.created_at}}</td>
+      <td>{{ r.user }}</td>
+      <td>{{ r.product }}</td>
+      <td>{{ r.rating }}</td>
+      <td>{{ r.review }}</td>
+      <td>{{ r.created_at }}</td>
     </tr>
-{% endfor %}
+    {% empty %}
+    <tr>
+      <td colspan="5">No ratings found for this product.</td>
+    </tr>
+    {% endfor %}
   </tbody>
 </table>
-
 {% endblock %}
