@@ -21,7 +21,7 @@
           <div class="btn-group" role="group">
 
             <a href="{% url 'product_rating' id=product.id %}" class="btn btn-success mr-2">Rating</a>
-            <a href="{% url 'cart'  %}" class="btn btn-primary">Add to Cart</a>
+            <a href="{% url 'add_to_cart' product.id %}" class="btn btn-primary">Add to Cart</a>
             <a href="{% url 'orderForm' %}?product_id={{ product.id }}" class="btn btn-warning">Order</a>
 
 

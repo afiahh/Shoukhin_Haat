@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseNotAllowed
 from django.shortcuts import render, redirect,get_object_or_404
 from .models import *
 from .forms import *
@@ -40,7 +40,28 @@ def createAcc(request):
     return render(request,template_name='body/createAcc.html',context=context)
 
 def cart(request):
-    return  render(request,template_name='body/cart.html')
+    cart_items = Cart.objects.filter(user=request.user)
+    context = {
+        'cart_items': cart_items,
+    }
+    #total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'body/cart.html', context=context)
+
+
+def add_to_cart(request, product_id):
+    prod = product.objects.get(id=product_id)
+    cart_item, created = Cart.objects.get_or_create(product=prod,
+                                                       user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('cart')
+
+
+def remove_from_cart(request, item_id):
+    cart_item = Cart.objects.get(id=item_id)
+    cart_item.delete()
+    return redirect('cart')
+
 
 def orders(request):
     order = Order.objects.all()
@@ -128,8 +149,8 @@ def seller(request):
     return  render(request,template_name='body/seller.html')
 
 
-from django.shortcuts import get_object_or_404
-from .models import product
+#from django.shortcuts import get_object_or_404
+#from .models import product
 
 def add_rating(request):
     # Get the order ID and product name from the query parameters
