@@ -20,5 +20,10 @@ class orderForm(ModelForm):
 
 class createAccForm(UserCreationForm):
     class Meta:
-        model=CustomUser
-        fields = ['username','password1','password2','nid','name','email','contact_no','address','account_type','picture','about_myself']
+        model=User
+        fields = ['username','email','password1','password2']
+
+class userProfileForm(ModelForm):
+    class Meta:
+        model=userProfile
+        fields='__all__'

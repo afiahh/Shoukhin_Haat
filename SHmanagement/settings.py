@@ -83,10 +83,10 @@ DATABASES = {
 }
 
 # Authentication backends
-AUTHENTICATION_BACKENDS = [
-    'shoukhin.backends.CustomUserBackend',
-    'django.contrib.auth.backends.ModelBackend',
-]
+#AUTHENTICATION_BACKENDS = [
+    #'shoukhin.backends.CustomUserBackend',
+   # 'django.contrib.auth.backends.ModelBackend',
+#]
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

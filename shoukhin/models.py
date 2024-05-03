@@ -78,25 +78,27 @@ class Order(models.Model):
         return f"Order {self.id} by {self.user}"
 
 
-class CustomUser(AbstractUser):
+class userProfile(models.Model):
     NID_LENGTH = 20
     ACCOUNT_TYPES = [
         ('buyer', 'Buyer'),
         ('seller', 'Seller'),
     ]
 
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
-    email = models.EmailField(blank=True, null=True)
+    #email = models.EmailField(blank=True, null=True)
     nid = models.CharField(max_length=NID_LENGTH) #min length 10
     contact_no = models.CharField(max_length=20,blank=True, null=True,default='+880')
     account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
     picture = models.ImageField(upload_to='static/images', blank=True, null=True,default='static/images/default_no_img.jfif')
     about_myself = models.TextField(blank=True, null=True,default='will add later')
     address = models.CharField(max_length=255)
-    # Add related_name to avoid clashes with auth.User's groups and user_permissions
-    groups = models.ManyToManyField('auth.Group', related_name='custom_user_groups',blank=True, null=True)
-    user_permissions = models.ManyToManyField('auth.Permission', related_name='custom_user_permissions',blank=True, null=True)
 
     def __str__(self):
         return self.name
+
+
+#class profile(models.Model):
+    #user = User.OnetoON
 

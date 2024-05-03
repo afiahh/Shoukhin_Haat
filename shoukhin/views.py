@@ -5,7 +5,8 @@ from .forms import *
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
-from .models import CustomUser
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 def home_page(request):
     return render(request,template_name='body/dashboard.html')
@@ -25,6 +26,10 @@ def loginpage(request):
             return redirect('home')
 
     return render(request,template_name='body/login.html')
+def logoutUser(request):
+    logout(request)
+    return redirect('home')
+
 
 def createAcc(request):
     form = createAccForm()
@@ -64,7 +69,7 @@ def remove_from_cart(request, item_id):
 
 
 def orders(request):
-    order = Order.objects.all()
+    order = Order.objects.filter(user=request.user)
     context = {
         'order': order,
     }
@@ -144,9 +149,51 @@ def view_product(request,id):
     }
     return render(request, template_name='body/view_product.html',context=context)
 
+@login_required
+def userProfile_add(request):
 
-def seller(request):
-    return  render(request,template_name='body/seller.html')
+    if request.method == 'POST':
+        form = userProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.instance.username = request.user.username  # Prefill username
+            form.save()
+            return redirect('home')
+    else:
+        # Prefill the username field with the username of the logged-in user
+        form = userProfileForm(initial={'username': request.user.username})
+
+    context = {
+        'form': form
+    }
+    return render(request, 'body/profileForm.html', context=context)
+
+
+def user_view(request):
+    try:
+        profile = userProfile.objects.get(user=request.user)
+    except userProfile.DoesNotExist:
+        profile = None
+
+    context = {
+        'profile': profile
+    }
+    return render(request, 'body/user.html', context=context)
+
+
+def edit_profile(request):
+    profile_instance = request.user.userprofile
+    form = userProfileForm(instance=profile_instance)
+
+    if request.method == 'POST':
+        form = userProfileForm(request.POST, request.FILES, instance=profile_instance)
+        if form.is_valid():
+            form.save()
+            return redirect('user')  # Redirect to the profile page after editing
+
+    context = {
+        'form': form
+    }
+    return render(request, 'body/profileForm.html', context=context)
 
 
 #from django.shortcuts import get_object_or_404
@@ -206,6 +253,13 @@ def category_jute(request):
         'product':pro,
     }
     return  render(request,template_name='body/category_jute.html',context=context)
+
+def category_cloth(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/category_cloth.html',context=context)
 
 def category_nakshi_kantha(request):
     pro = product.objects.all()

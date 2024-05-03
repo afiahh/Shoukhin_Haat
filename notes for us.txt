@@ -153,3 +153,716 @@ lagbe na :3
 </form>
 
 {% endblock %}
+
+*******************************
+
+URL.py****
+"""
+URL configuration for SHmanagement project.
+
+The `urlpatterns` list routes URLs to views. For more information please see:
+    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+Examples:
+Function views
+    1. Add an import:  from my_app import views
+    2. Add a URL to urlpatterns:  path('', views.home, name='home')
+Class-based views
+    1. Add an import:  from other_app.views import Home
+    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
+Including another URLconf
+    1. Import the include() function: from django.urls import include, path
+    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
+"""
+from django.contrib import admin
+from django.urls import path
+from django.conf.urls.static import static
+from django.conf import settings
+from shoukhin import views as s_view
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('',s_view.home_page,name = 'home'),
+    path('/login/home/', s_view.loginpage, name='login'),
+    path('/login/createAcc/', s_view.createAcc, name='createAcc'),
+    path('/cart/', s_view.cart, name='cart'),
+    path('add-to-cart/<int:product_id>/',s_view.add_to_cart, name='add_to_cart'),
+    path('remove_from_cart/<int:item_id>/', s_view.remove_from_cart, name='remove_from_cart'),
+    #path('cart/', view_cart, name='cart'),
+    path('/orders/', s_view.orders, name='orders'),
+    path('orderForm/', s_view.add_orders, name='orderForm'),
+    path('/product_details/', s_view.product_details, name='product_details'),
+    #path('dashboard', s_view.dashboard, name='dashboard'),
+    path('product_details/', s_view.product_details, name='product_details'),
+    path('product_details/<str:id>', s_view.view_product, name='view_product'),
+    path('buyer/', s_view.buyer, name='buyer'),
+    path('user/', s_view.user_view, name='user'),
+    path('product_details/add_product/',s_view.add_product, name='add_product'),
+    path('product_details/edit_product/<str:id>', s_view.edit_product, name='edit_product'),
+    path('product_details/delete_product/<str:id>/', s_view.delete_product, name='delete_product'),
+    path('add_rating/',s_view.add_rating, name='add_rating'),
+    path('add_rating/product_rating/<int:id>/', s_view.product_rating, name='product_rating'),
+    path('category_jute/',s_view.category_jute, name='category_jute'),
+    path('category_nakshi_kantha/',s_view.category_nakshi_kantha, name='category_nakshi_kantha'),
+]
+
+urlpatterns+= static(settings.MEDIA_URL , document_root=settings.MEDIA_ROOT)
+
+
+***************************
+views.py*****
+from django.http import HttpResponse, HttpResponseNotAllowed
+from django.shortcuts import render, redirect,get_object_or_404
+from .models import *
+from .forms import *
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from .models import CustomUser
+# Create your views here.
+def home_page(request):
+    return render(request,template_name='body/dashboard.html')
+
+#def dashboard(request):
+    #  return  render(request,template_name='body/dashboard.html')
+
+def loginpage(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(request, username=username , password=password)
+
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+
+    return render(request,template_name='body/login.html')
+
+def createAcc(request):
+    form = createAccForm()
+    if request.method == 'POST':
+        form = createAccForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile is created.")
+            return redirect('login')
+    context = {
+        'form': form
+    }
+    return render(request,template_name='body/createAcc.html',context=context)
+
+def cart(request):
+    cart_items = Cart.objects.filter(user=request.user)
+    context = {
+        'cart_items': cart_items,
+    }
+    #total_price = sum(item.product.price * item.quantity for item in cart_items)
+    return render(request, 'body/cart.html', context=context)
+
+
+def add_to_cart(request, product_id):
+    prod = product.objects.get(id=product_id)
+    cart_item, created = Cart.objects.get_or_create(product=prod,
+                                                       user=request.user)
+    cart_item.quantity += 1
+    cart_item.save()
+    return redirect('cart')
+
+
+def remove_from_cart(request, item_id):
+    cart_item = Cart.objects.get(id=item_id)
+    cart_item.delete()
+    return redirect('cart')
+
+
+def orders(request):
+    order = Order.objects.all()
+    context = {
+        'order': order,
+    }
+
+    return  render(request,template_name='body/orders.html',context=context)
+
+def add_orders(request):
+    if request.method =='POST':
+        form = orderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('orders')
+    else:
+        # Get the product ID from the query parameters
+        product_id = request.GET.get('product_id')
+        if product_id:
+            # Retrieve the product object based on the ID
+            product_obj = get_object_or_404(product, pk=product_id)
+            # Pre-fill the form with product details
+            initial_data = {
+                'product': product_obj,
+                'total_amount': product_obj.price,
+            }
+            form = orderForm(initial=initial_data)
+        else:
+            form = orderForm()
+
+    context = {
+        'form': form
+    }
+    return render(request, template_name='body/orderForm.html', context=context)
+def product_details(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/product_details.html',context=context)
+
+def add_product(request):
+    form=productForm()
+    if request.method =='POST':
+        form=productForm(request.POST , request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('product_details')
+
+    context={
+        'form': form
+    }
+    return render(request, template_name='body/add_product.html',context=context)
+
+
+def edit_product(request,id):
+    prod = product.objects.get(pk=id)
+    form=productForm(instance=prod)
+    if request.method == 'POST':
+        form=productForm(request.POST,request.FILES , instance=prod)
+        if form.is_valid():
+            form.save()
+            return redirect('product_details')
+
+    context = {
+        'form': form
+    }
+    return render(request, template_name='body/add_product.html', context=context)
+
+def delete_product(request,id):
+   prod = product.objects.get(pk=id)
+   if request.method == 'POST':
+    prod.delete()
+   return redirect('product_details')
+
+def view_product(request,id):
+    prod=product.objects.get(pk=id)
+    context = {
+        'product': prod,
+    }
+    return render(request, template_name='body/view_product.html',context=context)
+
+
+def user_view(request):
+    user = request.user
+    context = {
+        'users': user
+    }
+    return  render(request,template_name='body/user.html',context=context)
+
+
+#from django.shortcuts import get_object_or_404
+#from .models import product
+
+def add_rating(request):
+    # Get the order ID and product name from the query parameters
+    order_id = request.GET.get('order_id')
+    product_name = request.GET.get('product_name')
+
+    print("Order ID:", order_id)
+    print("Product Name:", product_name)
+
+    if request.method == 'POST':
+        form = ratingForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('orders')
+    else:
+        # Get the product object based on the name
+        product_obj = get_object_or_404(product, name=product_name)
+
+        # Pre-fill the form with order and product details
+        initial_data = {
+            'order': order_id,
+            'product': product_obj.pk,  # Use the product object's primary key
+        }
+        print("Initial Data:", initial_data)  # Print initial data for debugging
+        form = ratingForm(initial=initial_data)
+
+    context = {
+        'form': form
+    }
+    return render(request, 'body/add_rating.html', context)
+
+def product_rating(request,id):
+    rate = Rating.objects.filter(product_id= id)
+    context={
+        'Rating':rate,
+    }
+    return  render(request,template_name='body/product_rating.html',context=context)
+
+def buyer(request):
+    return  render(request,template_name='body/buyer.html')
+
+
+def your_view_function(request):
+    # Your view logic here
+    context = {
+        'request': request
+    }
+    return render(request, template_name='body/navbar.html', context=context)
+
+def category_jute(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/category_jute.html',context=context)
+
+def category_nakshi_kantha(request):
+    pro = product.objects.all()
+    context={
+        'product':pro,
+    }
+    return  render(request,template_name='body/category_nakshi_kantha.html',context=context)
+
+********************
+models,py****
+from django.db import models
+from django.contrib.auth.models import User
+from django.utils import timezone
+from django.contrib.auth.models import AbstractUser
+
+# Create your models here.
+class Rating(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE)
+    rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)],blank=True, null=True)
+    review = models.TextField(max_length=400,blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.rating} stars by {self.user} for {self.product.name}"
+
+class product(models.Model):
+
+    CATEGORY_CHOICES = CATEGORY_CHOICES = [
+        ('jute', 'Jute'),
+        ('clothing', 'Clothing'),
+        ('jewellery', 'Jewellery'),
+        ('food', 'Food'),
+        ('home_decor', 'Home Decor'),
+        ('pottery', 'Pottery'),
+        ('nakshi_kantha', 'Nakshi Kantha'),
+        ('others', 'Others'),
+    ]
+    name = models.CharField(max_length=200)
+    price = models.IntegerField()
+    description = models.TextField(blank=True,null=True)
+    measurements = models.CharField(max_length=300)
+    category = models.CharField(max_length=100, choices=CATEGORY_CHOICES, default='others')
+    image = models.ImageField(upload_to='static/images', blank=True, null=True, default='static/images/default_no_img.jfif')
+    stock = models.IntegerField(default=0)
+    # rating = models.ForeignKey(Rating, on_delete=models.CASCADE ,blank=True,null=True)
+    #review = models.ForeignKey(Rating, on_delete=models.CASCADE,blank=True,null=True)
+    def __str__(self):
+        return self.name
+
+class Cart(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True,null=True)
+    product = models.ForeignKey(product, on_delete=models.CASCADE,blank=True,null=True)
+    quantity = models.PositiveIntegerField(default=1,blank=True,null=True)
+
+    def __str__(self):
+        return f"Cart for {self.user}"
+
+class Order(models.Model):
+    STATUS_CHOICES = [
+
+         ('pending', 'pending'),
+         ('processing', 'processing'),
+         ('shipped', 'shipped'),
+         ('delivered', 'delivered'),
+         ('cancelled', 'cancelled'),
+
+    ]
+    PAYMENT_CHOICES = [
+
+        ('bkash', 'bkash'),
+        ('COD', 'COD'),
+        ('bank', 'bank'),
+        ('nagad', 'nagad'),
+        ('rocket', 'rocket'),
+
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(product, on_delete=models.CASCADE, blank=True, null=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=30, choices=STATUS_CHOICES, default='pending',blank=True,null=True)
+    total_amount = models.IntegerField()
+    shipping_address = models.TextField(max_length=200)
+    payment_method = models.CharField(max_length=30,choices=PAYMENT_CHOICES, default='COD',blank=True,null=True)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.user}"
+
+
+class CustomUser(AbstractUser):
+    NID_LENGTH = 20
+    ACCOUNT_TYPES = [
+        ('buyer', 'Buyer'),
+        ('seller', 'Seller'),
+    ]
+
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    nid = models.CharField(max_length=NID_LENGTH) #min length 10
+    contact_no = models.CharField(max_length=20,blank=True, null=True,default='+880')
+    account_type = models.CharField(max_length=10, choices=ACCOUNT_TYPES)
+    picture = models.ImageField(upload_to='static/images', blank=True, null=True,default='static/images/default_no_img.jfif')
+    about_myself = models.TextField(blank=True, null=True,default='will add later')
+    address = models.CharField(max_length=255)
+    # Add related_name to avoid clashes with auth.User's groups and user_permissions
+    groups = models.ManyToManyField('auth.Group', related_name='custom_user_groups',blank=True, null=True)
+    user_permissions = models.ManyToManyField('auth.Permission', related_name='custom_user_permissions',blank=True, null=True)
+
+    def __str__(self):
+        return self.name
+
+
+class profile(models.Model):
+    user = User.OnetoON
+
+**
+admin.py****
+from django.contrib import admin
+from .models import *
+
+# Register your models here.
+admin.site.register([product,Cart,Order,Rating,CustomUser])
+
+**********************
+createAcc.html***
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registration Form</title>
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" rel="stylesheet">
+  <style>
+    success_message { display: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form class="well form-horizontal" action="" method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <fieldset>
+        <legend>Registration Form</legend>
+
+        <!-- Username -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Username</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input name="username" placeholder="Username" class="form-control" type="text" value="{{ form.username.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Password</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input name="password1" placeholder="Password" class="form-control" type="password" value="{{ form.password1.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirm Password -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Confirm Password</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+              <input name="password2" placeholder="Confirm Password" class="form-control" type="password" value="{{ form.password2.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- NID -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">NID</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-credit-card"></i></span>
+              <input name="nid" placeholder="NID" class="form-control" type="text" value="{{ form.nid.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Name -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Name</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+              <input name="name" placeholder="Name" class="form-control" type="text" value="{{ form.name.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Email</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+              <input name="email" placeholder="Email Address" class="form-control" type="email" value="{{ form.email.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact No -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Contact No</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+              <input name="contact_no" placeholder="Contact No" class="form-control" type="text" value="{{ form.contact_no.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Address</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+              <input name="address" placeholder="Address" class="form-control" type="text" value="{{ form.address.value }}">
+            </div>
+          </div>
+        </div>
+
+        <!-- Account Type -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Account Type</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+               {{ form.account_type }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Picture -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">Picture</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+              {{ form.picture }}
+            </div>
+          </div>
+        </div>
+
+        <!-- About Myself -->
+        <!-- About Myself -->
+        <div class="form-group">
+          <label class="col-md-4 control-label">About Myself</label>
+          <div class="col-md-4 inputGroupContainer">
+            <div class="input-group">
+              <span class="input-group-addon"><i class="glyphicon glyphicon-pencil"></i></span>
+              {{ form.about_myself }}
+            </div>
+          </div>
+        </div>
+
+        <!--  <div class="alert alert-success" role="alert" id="success_message">Registration Successful! Thank you.</div> -->
+
+        {{form.errors}}
+        <div class="form-group">
+          <label class="col-md-4 control-label"></label>
+          <div class="col-md-4">
+            <input type="submit" name="Submit" class="btn btn-primary">
+
+          </div>
+        </div>
+
+      </fieldset>
+    </form>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-validator/0.5.3/js/bootstrapValidator.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#registration_form').bootstrapValidator({
+        feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+          username: {
+            validators: {
+              stringLength: {
+                min: 6,
+                message: 'Username must be at least 6 characters'
+              },
+              notEmpty: {
+                message: 'Please supply your username'
+              }
+            }
+          },
+          password1: {
+            validators: {
+              stringLength: {
+                min: 6,
+                message: 'Password must be at least 6 characters'
+              },
+              notEmpty: {
+                message: 'Please supply your password'
+              }
+            }
+          },
+          password2: {
+            validators: {
+              identical: {
+                field: 'password1',
+                message: 'Passwords do not match'
+              },
+              notEmpty: {
+                message: 'Please confirm your password'
+              }
+            }
+          },
+          nid: {
+            validators: {
+              stringLength: {
+                min: 10,
+                max: 20,
+                message: 'Please enter a valid NID'
+              },
+              notEmpty: {
+                message: 'Please supply your NID'
+              }
+            }
+          },
+          name: {
+            validators: {
+              stringLength: {
+                min: 2,
+                message: 'Please enter a valid name'
+              },
+              notEmpty: {
+                message: 'Please supply your name'
+              }
+            }
+          },
+          email: {
+            validators: {
+              notEmpty: {
+                message: 'Please supply your email address'
+              },
+              emailAddress: {
+                message: 'Please supply a valid email address'
+              }
+            }
+          },
+          contact_no: {
+            validators: {
+              stringLength: {
+                min: 11,
+                max: 20,
+                message: 'Please enter a valid phone number'
+              },
+              notEmpty: {
+                message: 'Please supply your contact number'
+              }
+            }
+          },
+          address: {
+            validators: {
+              stringLength: {
+                min: 8,
+                message: 'Please enter a valid address'
+              },
+              notEmpty: {
+                message: 'Please supply your address'
+              }
+            }
+          },
+          account_type: {
+            validators: {
+              notEmpty: {
+                message: 'Please select your account type'
+              }
+            }
+          },
+          picture: {
+            validators: {
+              file: {
+                extension: 'jpeg,jpg,png',
+                type: 'image/jpeg,image/png',
+                maxSize: 2097152, // 2 MB
+                message: 'Please choose a valid image file (JPEG, JPG, PNG) less than 2MB'
+              }
+            }
+          },
+          about_myself: {
+            validators: {
+              stringLength: {
+                min: 10,
+                max: 500,
+                message: 'Please enter at least 10 characters and no more than 500'
+              },
+              notEmpty: {
+                message: 'Please provide information about yourself'
+              }
+            }
+          }
+        }
+      }).on('success.form.bv', function(e) {
+        $('#success_message').slideDown({ opacity: "show" }, "slow");
+        $('#registration_form').data('bootstrapValidator').resetForm();
+        e.preventDefault();
+        var $form = $(e.target);
+        var bv = $form.data('bootstrapValidator');
+        $.post($form.attr('action'), $form.serialize(), function(result) {
+          console.log(result);
+        }, 'json');
+      });
+    });
+  </script>
+</body>
+</html>
+
+*************
+backend****
+from django.contrib.auth.backends import BaseBackend
+from .models import userProfile
+
+class CustomUserBackend(BaseBackend):
+    def authenticate(self, request, username=None, password=None):
+        try:
+            user = userProfile.objects.get(username=username)
+            if user.check_password(password):
+                return user
+        except userProfile.DoesNotExist:
+            return None
+
+
+

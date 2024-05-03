@@ -17,7 +17,9 @@
           {% endif %}
           <p><strong>Category:</strong> {{ product.category }}</p>
           <p><strong>Price:</strong> {{ product.price }}</p>
+          <p><strong>Measurements:</strong> {{ product.measurements }}</p>
           <p><strong>Description:</strong> {{ product.description }}</p>
+          <p><strong>Stock:</strong> {{ product.stock }}</p>
           <div class="btn-group" role="group">
 
             <a href="{% url 'product_rating' id=product.id %}" class="btn btn-success mr-2">Rating</a>
