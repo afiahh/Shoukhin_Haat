@@ -196,9 +196,6 @@ def edit_profile(request):
     return render(request, 'body/profileForm.html', context=context)
 
 
-#from django.shortcuts import get_object_or_404
-#from .models import product
-
 def add_rating(request):
     # Get the order ID and product name from the query parameters
     order_id = request.GET.get('order_id')

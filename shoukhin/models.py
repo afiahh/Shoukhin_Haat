@@ -99,6 +99,4 @@ class userProfile(models.Model):
         return self.name
 
 
-#class profile(models.Model):
-    #user = User.OnetoON
 
