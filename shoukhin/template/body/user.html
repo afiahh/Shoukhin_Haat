@@ -133,6 +133,7 @@
                 <div class="profile-work">
                     {% if profile.account_type == 'seller' %}
                     <a href="{% url 'add_product' %}" class="btn custom-btn mb-3 border border-dark border-2">Add Product</a>
+                    <a href="{% url 'product_details' %}" class="btn custom-btn mb-3 border border-dark border-2">My Products</a>
                     {% endif %}
                     <p>ABOUT ME</p>
                     <div class="col-md-6">

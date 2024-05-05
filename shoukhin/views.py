@@ -11,6 +11,9 @@ from django.contrib.auth.decorators import login_required
 def home_page(request):
     return render(request,template_name='body/dashboard.html')
 
+def refund(request):
+    return render(request,template_name='body/refund.html')
+
 #def dashboard(request):
     #  return  render(request,template_name='body/dashboard.html')
 

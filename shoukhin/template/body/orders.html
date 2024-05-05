@@ -20,6 +20,8 @@
           <p><strong>Shipping Address:</strong> {{ o.shipping_address }}</p>
           <p><strong>Payment Method:</strong> {{ o.payment_method }}</p>
          <a href="{% url 'add_rating' %}?order_id={{ o.id }}&product_name={{ o.product.name }}" class="btn btn-primary">Add Rating</a>
+          <div> <a href="{% url 'refund' %}" class="btn custom-btn mb-3 border border-dark border-2">Return/Refund</a></div>
+
 
         </div>
       </div>

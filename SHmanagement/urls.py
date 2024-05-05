@@ -31,6 +31,7 @@ urlpatterns = [
     path('remove_from_cart/<int:item_id>/', s_view.remove_from_cart, name='remove_from_cart'),
     #path('cart/', view_cart, name='cart'),
     path('/orders/', s_view.orders, name='orders'),
+    path('/orders/refund', s_view.refund, name='refund'),
     path('orderForm/', s_view.add_orders, name='orderForm'),
     path('/product_details/', s_view.product_details, name='product_details'),
     #path('dashboard', s_view.dashboard, name='dashboard'),

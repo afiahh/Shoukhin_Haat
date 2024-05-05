@@ -26,4 +26,4 @@ class createAccForm(UserCreationForm):
 class userProfileForm(ModelForm):
     class Meta:
         model=userProfile
-        fields='__all__'
+        fields = '__all__'
