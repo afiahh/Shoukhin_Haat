@@ -1,11 +1,12 @@
 # Shoukhin_Haat
-# E-commerce platform
-# E-commerce website
-# django , python v3.12
-# HTML, CSS, JS, Bootstrap
+E-commerce platform
+# languages used
+ django , python v3.12
+ HTML, CSS, JS, Bootstrap
 
 # Overview
-   Shoukhin_Haat is a web platform aimed at preserving Bangladesh's traditional products by providing a space for buyers to purchase authentic goods and for sellers to showcase and sell their local products.
+   Shoukhin_Haat is a web platform aimed at preserving Bangladesh's traditional products by providing a space for buyers to purchase authentic goods and for sellers to 
+   showcase and sell their local products.
    It is built using Django, Python, HTML, CSS, and Bootstrap. Main goal for this project is to harnesses technology to promote and sustain cultural heritage.
 
 ## watch a demonstration video
@@ -42,11 +43,14 @@ Contributions are welcome! If you'd like to contribute to Shoukhin_haat and help
 4. Push to the branch: git push origin feature-name
 5. Submit a pull request.
 
-# know issues 
+# known issues 
 This is still a work in progress. A lot of things can be better.
  The UI/UX is still under development.
  The product listing is not filtered according to the user yet.
  product details will show the rating average in the same card where other descriptions are . 
  And many more are coming soon!
+
+# contact me-
+afiah.work03@gmail.com
 
 
