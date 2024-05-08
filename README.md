@@ -9,8 +9,8 @@ E-commerce platform
    showcase and sell their local products.
    It is built using Django, Python, HTML, CSS, and Bootstrap. Main goal for this project is to harnesses technology to promote and sustain cultural heritage.
 
-## watch a demonstration video
-<a href= "https://youtu.be/K4YWgxbNOl8" target= "blank">
+# watch a demonstration video
+YOUTUBE = https://youtu.be/K4YWgxbNOl8
 
 # Features
 Marketplace platform
