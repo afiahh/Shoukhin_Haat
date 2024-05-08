@@ -13,12 +13,13 @@ E-commerce platform
 YOUTUBE = https://youtu.be/K4YWgxbNOl8
 
 # Features
-Marketplace platform
-product listing and detailed description
-E-commerce Functionality
-Seller Verification
-Customer Review and Ratings
-exchange or return policy
+1. Marketplace platform
+2. product listing and detailed description
+3. E-commerce Functionality
+4. Seller Verification
+5. Customer Review and Ratings
+6. exchange or return policy
+7. User profile managment
 
 # Installation
 1. Clone the repository: git clone https://github.com/afiahh/Shoukhin_Haat.git
