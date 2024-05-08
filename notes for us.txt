@@ -46,25 +46,21 @@ writing green #344E41
 
 
 ******
+HTML page formatings-
 
 {% extends 'body/main.html' %}
 {% load static %}
 {% block content %}
-
-<div class="card" style="width: 18rem;">
-    {% if p.image %}
-    <img src="p.image.url" class="card-img-top" alt="...">
-    {% endif %}
-    <div class="card-body">
-    <p class="card-text"> {{p.name}} {{p.price}}</p>
-    </div>
-</div>
-
+ 
 
 {% endblock %}
 lagbe na :3
 
-********
+*************************************************************************************************************************************************************
+
+these are the trial and error codes. kept it here , so nothing is lost and i can utilize whatever i need it ,easily.
+
+*************************************************************************************************************************************************************
 
 {% extends 'body/main.html' %}
 {% load static %}
