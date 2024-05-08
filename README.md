@@ -1,7 +1,7 @@
 # Shoukhin_Haat
 E-commerce platform
 # languages used
- django , python v3.12
+ django , python v3.12,
  HTML, CSS, JS, Bootstrap
 
 # Overview
